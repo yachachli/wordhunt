@@ -61,20 +61,20 @@ function generateBoard() {
     var seed = dateString.replace(/[^0-9]/g, ''); // Extract numeric characters from the date string
     var random = new Math.seedrandom(seed); // Initialize the random number generator with the seed
   
-    board = [];
+    var boardElement = document.getElementById("board");
+    boardElement.innerHTML = ""; // Clear previous tiles
   
     for (var i = 0; i < 4; i++) {
-      var row = [];
-  
       for (var j = 0; j < 4; j++) {
         var randomIndex = Math.floor(random() * alphabet.length);
         var letter = alphabet[randomIndex];
-        row.push(letter);
-      }
   
-      board.push(row);
+        var tile = document.createElement("div");
+        tile.textContent = letter;
+        boardElement.appendChild(tile);
+      }
     }
-  }
+}
 
 function renderBoard() {
     var boardContainer = document.getElementById("board");
