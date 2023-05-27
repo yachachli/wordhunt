@@ -36,7 +36,7 @@ h1 {
 }
   
 #board div {
-    position: absolute; /* Added */
+    position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -46,6 +46,8 @@ h1 {
     color: black;
     font-size: 36px;
     border-radius: 5px;
+    left: 0;
+    top: 0;
 }
   
 #word-input {
