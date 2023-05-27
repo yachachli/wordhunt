@@ -9,26 +9,41 @@ var wordbank;
 var board;
 var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
 
-function generateBoard() {
-    var date = new Date();
-    var dateString = date.toDateString();
-    var seed = dateString.replace(/[^0-9]/g, ''); // Extract numeric characters from the date string
-    var random = new Math.seedrandom(seed); // Initialize the random number generator with the seed
+
+// this function theoretically randomly generates a board but it doesn't work rn
+// function generateBoard() {
+//     var date = new Date();
+//     var dateString = date.toDateString();
+//     var seed = dateString.replace(/[^0-9]/g, ''); // Extract numeric characters from the date string
+//     var random = new Math.seedrandom(seed); // Initialize the random number generator with the seed
   
+//     var boardElement = document.getElementById("board");
+//     boardElement.innerHTML = ""; // Clear previous tiles
+  
+//     for (var i = 0; i < 4; i++) {
+//       for (var j = 0; j < 4; j++) {
+//         var randomIndex = Math.floor(random() * alphabet.length);
+//         var letter = alphabet[randomIndex];
+  
+//         var tile = document.createElement("div");
+//         tile.textContent = letter;
+//         boardElement.appendChild(tile);
+//       }
+//     }
+// }
+
+function generateBoard() { //to test a board with all A's
     var boardElement = document.getElementById("board");
     boardElement.innerHTML = ""; // Clear previous tiles
-  
+    
     for (var i = 0; i < 4; i++) {
       for (var j = 0; j < 4; j++) {
-        var randomIndex = Math.floor(random() * alphabet.length);
-        var letter = alphabet[randomIndex];
-  
         var tile = document.createElement("div");
-        tile.textContent = letter;
+        tile.textContent = "A";
         boardElement.appendChild(tile);
       }
     }
-}
+  }
 
 function renderBoard() {
     var boardContainer = document.getElementById("board");
