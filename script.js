@@ -5,6 +5,14 @@ var enteredWords = [];
 //var wordbank = require('words.json');
 var wordbank;
 
+
+var board = [
+    ['A', 'A', 'A', 'A'],
+    ['A', 'A', 'A', 'A'],
+    ['A', 'A', 'A', 'A'],
+    ['A', 'A', 'A', 'A']
+];
+
 fetch("words.json")
   .then(response => response.json())
   .then(data => {
@@ -40,9 +48,27 @@ function handleKeyDown(event) {
     }
 }
 
+function isValidWord(word) {
+    return wordBank.includes(word);
+}
+
 function startTimer() {
   timerInterval = setInterval(updateTimer, 1000);
 }
+
+function renderBoard() {
+    var boardContainer = document.getElementById("board");
+    boardContainer.innerHTML = "";
+  
+    for (var i = 0; i < board.length; i++) {
+      for (var j = 0; j < board[i].length; j++) {
+        var cell = document.createElement("div");
+        cell.innerText = board[i][j];
+        boardContainer.appendChild(cell);
+      }
+    }
+}
+  
 
 function updateTimer() {
   timer--;
