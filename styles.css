@@ -104,6 +104,18 @@ button:hover {
 button:active {
     transform: translateY(1px);
 }
+
+#start-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+  
+#start-button {
+    padding: 20px 40px;
+    font-size: 24px;
+}
   
 .alert {
     padding: 10px;
