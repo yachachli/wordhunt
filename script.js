@@ -109,4 +109,8 @@ function updateTimer() {
   }
 }
 
+document.addEventListener("DOMContentLoaded", function() {
+    generateBoard();
+});
+
 startTimer();
