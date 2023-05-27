@@ -61,14 +61,17 @@ function renderBoard() {
     boardContainer.innerHTML = "";
   
     for (var i = 0; i < board.length; i++) {
+      var row = document.createElement("div");
+  
       for (var j = 0; j < board[i].length; j++) {
         var cell = document.createElement("div");
         cell.innerText = board[i][j];
-        boardContainer.appendChild(cell);
+        row.appendChild(cell);
       }
-    }
-}
   
+      boardContainer.appendChild(row);
+    }
+  }
 
 function updateTimer() {
   timer--;
