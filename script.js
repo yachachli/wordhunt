@@ -32,6 +32,12 @@ function submitWord() {
     wordInput.value = "";
 }
 
+function handleKeyDown(event) {
+    if (event.key === "Enter") {
+      submitWord();
+    }
+}
+
 function startTimer() {
   timerInterval = setInterval(updateTimer, 1000);
 }
