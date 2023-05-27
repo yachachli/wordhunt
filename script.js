@@ -9,52 +9,6 @@ var wordbank;
 var board;
 var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
 
-
-fetch("wordBank.json")
-  .then(response => response.json())
-  .then(data => {
-    wordBank = data.words;
-    generateBoard();
-    renderBoard();
-  })
-  .catch(error => {
-    console.error("Error loading word bank:", error);
-  });
-
-function submitWord() {
-    var wordInput = document.getElementById("word-input");
-    var word = wordInput.value.trim();
-  
-    if (word !== "") {
-        if (enteredWords.includes(word)) {
-          alert("You have already entered this word!");
-        } else if (wordBank.includes(word)) {
-            // Perform word scoring logic here
-            score++;
-            document.getElementById("score-value").innerText = score;
-            enteredWords.push(word);
-        } else {
-            alert("Invalid word!");
-        }
-      }
-  
-    wordInput.value = "";
-}
-
-function handleKeyDown(event) {
-    if (event.key === "Enter") {
-      submitWord();
-    }
-}
-
-function isValidWord(word) {
-    return wordBank.includes(word);
-}
-
-function startTimer() {
-  timerInterval = setInterval(updateTimer, 1000);
-}
-
 function generateBoard() {
     var date = new Date();
     var dateString = date.toDateString();
@@ -91,7 +45,58 @@ function renderBoard() {
   
       boardContainer.appendChild(row);
     }
-  }
+}
+
+
+fetch("wordBank.json")
+  .then(response => response.json())
+  .then(data => {
+    wordBank = data.words;
+    generateBoard();
+    renderBoard();
+  })
+  .catch(error => {
+    console.error("Error loading word bank:", error);
+  });
+
+function submitWord() {
+    var wordInput = document.getElementById("word-input");
+    var word = wordInput.value.trim();
+  
+    if (word !== "") {
+        if (enteredWords.includes(word)) {
+          alert("You have already entered this word!");
+        } else if (wordBank.includes(word)) {
+            // Perform word scoring logic here
+            score++;
+            document.getElementById("score-value").innerText = score;
+            enteredWords.push(word);
+        } else {
+            alert("Invalid word!");
+        }
+      }
+  
+    wordInput.value = "";
+}
+
+function handleKeyDown(event) {
+    if (event.key === "Enter") {
+      submitWord();
+    }
+    else if (event.keyCode === 13) {
+        submitWord();
+    }
+}
+
+function isValidWord(word) {
+    return wordBank.includes(word);
+}
+
+function startTimer() {
+  timerInterval = setInterval(updateTimer, 1000);
+}
+
+
 
 function updateTimer() {
   timer--;
