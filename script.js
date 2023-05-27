@@ -70,6 +70,7 @@ function submitWord() {
         if (word === "Thank you Yahli") {
             alert("You're very welcome! hope this has been fun for you, here's a point");
             score++;
+            document.getElementById("score-value").innerText = score;
         }
         else if (enteredWords.includes(word)) {
           alert("You have already entered this word!");
