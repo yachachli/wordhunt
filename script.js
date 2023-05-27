@@ -2,6 +2,17 @@ var score = 0;
 var timer = 60;
 var timerInterval;
 var enteredWords = [];
+//var wordbank = require('words.json');
+var wordbank;
+
+fetch("words.json")
+  .then(response => response.json())
+  .then(data => {
+    wordBank = data.words;
+  })
+  .catch(error => {
+    console.error("Error loading word bank:", error);
+  });
 
 function submitWord() {
     var wordInput = document.getElementById("word-input");
