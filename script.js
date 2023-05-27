@@ -47,18 +47,6 @@ function renderBoard() {
     }
 }
 
-
-fetch("wordBank.json")
-  .then(response => response.json())
-  .then(data => {
-    wordBank = data.words;
-    generateBoard();
-    renderBoard();
-  })
-  .catch(error => {
-    console.error("Error loading word bank:", error);
-  });
-
 function submitWord() {
     var wordInput = document.getElementById("word-input");
     var word = wordInput.value.trim();
@@ -108,6 +96,18 @@ function updateTimer() {
     // Perform end game logic here
   }
 }
+
+
+fetch("words.json")
+    .then(response => response.json())
+    .then(data => {
+        wordBank = data.words;
+        generateBoard();
+        renderBoard();
+    })
+    .catch(error => {
+        console.error("Error loading word bank:", error);
+    });
 
 document.addEventListener("DOMContentLoaded", function() {
     generateBoard();
