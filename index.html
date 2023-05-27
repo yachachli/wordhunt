@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Word Hunt Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>Word Hunt Game</h1>
+  <p id="score">Score: <span id="score-value">0</span></p>
+  <p id="timer">Time left: <span id="timer-value">60</span> seconds</p>
+  <input type="text" id="word-input" placeholder="Enter a word">
+  <button onclick="submitWord()">Submit</button>
+
+  <script>
+    var score = 0;
+    var timer = 60;
+    var timerInterval;
+
+    function submitWord() {
+      var wordInput = document.getElementById("word-input");
+      var word = wordInput.value.trim();
+
+      if (word !== "") {
+        // Perform word validation and scoring logic here
+        score++;
+        document.getElementById("score-value").innerText = score;
+      }
+
+      wordInput.value = "";
+    }
+
+    function startTimer() {
+      timerInterval = setInterval(updateTimer, 1000);
+    }
+
+    function updateTimer() {
+      timer--;
+      document.getElementById("timer-value").innerText = timer;
+
+      if (timer === 0) {
+        clearInterval(timerInterval);
+        document.getElementById("word-input").disabled = true;
+        // Perform end game logic here
+      }
+    }
+
+    startTimer();
+  </script>
+</body>
+</html>
