@@ -54,6 +54,7 @@ function renderBoard() {
   
       for (var j = 0; j < board[i].length; j++) {
         var cell = document.createElement("div");
+        cell.classList.add("tile");
         cell.innerText = board[i][j];
         row.appendChild(cell);
       }
