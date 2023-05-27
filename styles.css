@@ -6,8 +6,8 @@ body {
 #board {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    font-size: 24px;
+    gap: 20px;
+    font-size: 36px;
     margin-bottom: 20px;
 }
   
@@ -15,7 +15,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 60px;
-    height: 60px;
-    border: 1px solid rgb(0, 0, 0);
+    width: 120px;
+    height: 120px;
+    border: 2px solid rgb(0, 0, 0);
 }
+  
