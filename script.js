@@ -32,16 +32,32 @@ var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
 //     }
 // }
 
-function generateBoard() { //to test a board with all A's
-    var boardElement = document.getElementById("board");
-    boardElement.innerHTML = ""; // Clear previous tiles
+// function generateBoard() { //to test a board with all A's
+//     var boardElement = document.getElementById("board");
+//     boardElement.innerHTML = ""; // Clear previous tiles
     
+//     for (var i = 0; i < 4; i++) {
+//       for (var j = 0; j < 4; j++) {
+//         var tile = document.createElement("div");
+//         tile.textContent = "A";
+//         boardElement.appendChild(tile);
+//       }
+//     }
+//   }
+
+function generateBoard() {
+    board = [];
+  
     for (var i = 0; i < 4; i++) {
+      var row = [];
+  
       for (var j = 0; j < 4; j++) {
-        var tile = document.createElement("div");
-        tile.textContent = "A";
-        boardElement.appendChild(tile);
+        var randomIndex = Math.floor(Math.random() * alphabet.length);
+        var letter = alphabet[randomIndex];
+        row.push(letter);
       }
+  
+      board.push(row);
     }
   }
 
