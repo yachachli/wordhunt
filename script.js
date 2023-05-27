@@ -167,15 +167,20 @@ function startTimer() {
 
 
 function updateTimer() {
-  timer--;
-  document.getElementById("timer-value").innerText = timer;
-
-  if (timer === 0) {
-    clearInterval(timerInterval);
-    document.getElementById("word-input").disabled = true;
-    // Perform end game logic here
-  }
+    timer--;
+    document.getElementById("timer-value").innerText = timer;
+  
+    if (timer === 0) {
+      clearInterval(timerInterval);
+      document.getElementById("word-input").disabled = true;
+  
+      var message = "Congrats! Your score was: " + score + ". Come back tomorrow to play again.";
+      alert(message);
+  
+      // Perform end game logic here
+    }
 }
+  
 
 
 fetch("words.json")
