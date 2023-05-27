@@ -10,33 +10,34 @@ var board;
 
 // the reason for more of certain letters is to artifically 'weight' the board to have more of certain letters than others
 var alphabet = [
-    "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", // 14 occurrences of "E"
-    "T", "T", "T", "T", "T", "T", "T", "T", "T", // 9 occurrences of "T"
-    "A", "A", "A", "A", "A", "A", "A", // 7 occurrences of "A"
-    "O", "O", "O", "O", "O", "O", "O", // 7 occurrences of "O"
-    "I", "I", "I", "I", "I", // 5 occurrences of "I"
-    "N", "N", "N", "N", "N", "N", // 6 occurrences of "N"
-    "S", "S", "S", "S", // 4 occurrences of "S"
-    "H", "H", "H", "H", // 4 occurrences of "H"
-    "R", "R", "R", "R", // 4 occurrences of "R"
-    "D", "D", "D", "D", // 4 occurrences of "D"
-    "L", "L", "L", "L", // 4 occurrences of "L"
-    "C", "C", "C", // 3 occurrences of "C"
-    "U", "U", "U", // 3 occurrences of "U"
-    "M", "M", "M", // 3 occurrences of "M"
-    "W", "W", "W", // 3 occurrences of "W"
-    "F", "F", "F", // 3 occurrences of "F"
-    "G", "G", "G", // 3 occurrences of "G"
-    "Y", "Y", "Y", // 3 occurrences of "Y"
-    "P", "P", "P", // 3 occurrences of "P"
-    "B", "B", // 2 occurrences of "B"
-    "V", "V", // 2 occurrences of "V"
-    "K", "K", // 2 occurrences of "K"
-    "J", "J", // 2 occurrences of "J"
-    "X", "X", // 2 occurrences of "X"
-    "Q", // 1 occurrence of "Q"
-    "Z" // 1 occurrence of "Z"
+    { letter: "E", weight: 14 },
+    { letter: "T", weight: 9 },
+    { letter: "A", weight: 7 },
+    { letter: "O", weight: 7 },
+    { letter: "I", weight: 5 },
+    { letter: "N", weight: 6 },
+    { letter: "S", weight: 4 },
+    { letter: "H", weight: 4 },
+    { letter: "R", weight: 4 },
+    { letter: "D", weight: 4 },
+    { letter: "L", weight: 4 },
+    { letter: "C", weight: 3 },
+    { letter: "U", weight: 3 },
+    { letter: "M", weight: 3 },
+    { letter: "W", weight: 3 },
+    { letter: "F", weight: 3 },
+    { letter: "G", weight: 3 },
+    { letter: "Y", weight: 3 },
+    { letter: "P", weight: 3 },
+    { letter: "B", weight: 2 },
+    { letter: "V", weight: 2 },
+    { letter: "K", weight: 2 },
+    { letter: "J", weight: 2 },
+    { letter: "X", weight: 2 },
+    { letter: "Q", weight: 1 },
+    { letter: "Z", weight: 1 }
   ];
+  
   
 
 // this function theoretically randomly generates a board but it doesn't work rn
@@ -81,14 +82,27 @@ function generateBoard() {
       var row = [];
   
       for (var j = 0; j < 4; j++) {
-        var randomIndex = Math.floor(Math.random() * alphabet.length);
-        var letter = alphabet[randomIndex];
+        var totalWeight = alphabet.reduce((acc, letter) => acc + letter.weight, 0); //to take into account weights
+        var randomWeight = Math.random() * totalWeight;
+  
+        var cumulativeWeight = 0;
+        var randomIndex = -1;
+        for (var k = 0; k < alphabet.length; k++) {
+          cumulativeWeight += alphabet[k].weight;
+          if (randomWeight <= cumulativeWeight) {
+            randomIndex = k;
+            break;
+          }
+        }
+  
+        var letter = alphabet[randomIndex].letter;
         row.push(letter);
       }
   
       board.push(row);
     }
   }
+  
 
 function renderBoard() {
     var boardContainer = document.getElementById("board");
