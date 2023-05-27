@@ -174,7 +174,7 @@ function updateTimer() {
       clearInterval(timerInterval);
       document.getElementById("word-input").disabled = true;
   
-      var message = "Congrats! Your score was: " + score + ". Come back tomorrow to play again.";
+      var message = "Congrats! Your score was: " + score + "! Come back tomorrow to play again!";
       alert(message);
   
       // Perform end game logic here
