@@ -23,21 +23,24 @@ h1 {
 }
   
 #board {
-    position: relative; /* Added */
+    position: relative;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 20px;
     width: 400px;
     height: 400px;
+    margin-left: auto;
+    margin-right: auto;
     background-color: #8B008B; /* Purple color */
     border-radius: 10px;
     padding: 20px;
     box-sizing: border-box;
-    margin: 0 auto; /* Added */
-}
+  }
   
-#board div {
+  #board div {
     position: absolute;
+    top: 0;
+    left: 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -47,10 +50,8 @@ h1 {
     color: black;
     font-size: 36px;
     border-radius: 5px;
-    left: 0;
-    top: 0;
-    animation: fade-in 0.5s linear forwards;
-}
+  }
+  
   
 @keyframes fade-in {
     from {
