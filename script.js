@@ -67,7 +67,11 @@ function submitWord() {
     var word = wordInput.value.trim();
   
     if (word !== "") {
-        if (enteredWords.includes(word)) {
+        if (word === "Thank you Yahli") {
+            alert("You're very welcome! hope this has been fun for you, here's a point");
+            score++;
+        }
+        else if (enteredWords.includes(word)) {
           alert("You have already entered this word!");
         } else if (wordBank.includes(word)) {
             // Perform word scoring logic here
@@ -80,8 +84,8 @@ function submitWord() {
       }
     
     if (word === "Thank you Yahli") {
-        alert("You're very welcome! hope this has been fun for you, here's 3 points");
-        score += 3;
+        alert("You're very welcome! hope this has been fun for you, here's a point");
+        score++;
     }
   
     wordInput.value = "";
