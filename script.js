@@ -7,8 +7,37 @@ var wordbank;
 
 
 var board;
-var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
 
+// the reason for more of certain letters is to artifically 'weight' the board to have more of certain letters than others
+var alphabet = [
+    "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", "E", // 14 occurrences of "E"
+    "T", "T", "T", "T", "T", "T", "T", "T", "T", // 9 occurrences of "T"
+    "A", "A", "A", "A", "A", "A", "A", // 7 occurrences of "A"
+    "O", "O", "O", "O", "O", "O", "O", // 7 occurrences of "O"
+    "I", "I", "I", "I", "I", // 5 occurrences of "I"
+    "N", "N", "N", "N", "N", "N", // 6 occurrences of "N"
+    "S", "S", "S", "S", // 4 occurrences of "S"
+    "H", "H", "H", "H", // 4 occurrences of "H"
+    "R", "R", "R", "R", // 4 occurrences of "R"
+    "D", "D", "D", "D", // 4 occurrences of "D"
+    "L", "L", "L", "L", // 4 occurrences of "L"
+    "C", "C", "C", // 3 occurrences of "C"
+    "U", "U", "U", // 3 occurrences of "U"
+    "M", "M", "M", // 3 occurrences of "M"
+    "W", "W", "W", // 3 occurrences of "W"
+    "F", "F", "F", // 3 occurrences of "F"
+    "G", "G", "G", // 3 occurrences of "G"
+    "Y", "Y", "Y", // 3 occurrences of "Y"
+    "P", "P", "P", // 3 occurrences of "P"
+    "B", "B", // 2 occurrences of "B"
+    "V", "V", // 2 occurrences of "V"
+    "K", "K", // 2 occurrences of "K"
+    "J", "J", // 2 occurrences of "J"
+    "X", "X", // 2 occurrences of "X"
+    "Q", // 1 occurrence of "Q"
+    "Z" // 1 occurrence of "Z"
+  ];
+  
 
 // this function theoretically randomly generates a board but it doesn't work rn
 // function generateBoard() {
