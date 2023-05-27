@@ -83,11 +83,6 @@ function submitWord() {
             alert("Invalid word!");
         }
       }
-    
-    if (word === "Thank you Yahli") {
-        alert("You're very welcome! hope this has been fun for you, here's a point");
-        score++;
-    }
   
     wordInput.value = "";
 }
