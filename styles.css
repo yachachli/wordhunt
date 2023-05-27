@@ -3,9 +3,6 @@ body {
     background-color: #f0f0f0;
     margin: 0;
     padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
   
 h1 {
@@ -17,37 +14,35 @@ h1 {
 #timer {
     font-weight: bold;
     margin-bottom: 10px;
-    text-align: center;
 }
   
 #score-value,
 #timer-value {
-    color: #8b008b; /* Purple color */
+    color: #8B008B; /* Purple color */
 }
   
 #board {
+    position: relative; /* Added */
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 20px;
     width: 400px;
     height: 400px;
-    background-color: #8b008b; /* Purple color */
+    background-color: #8B008B; /* Purple color */
     border-radius: 10px;
     padding: 20px;
     box-sizing: border-box;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
+    margin: 0 auto; /* Added */
 }
   
 #board div {
+    position: absolute; /* Added */
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100px;
     height: 100px;
-    background-color: #8b4513; /* Wood-y color */
+    background-color: #8B4513; /* Wood-y color */
     color: black;
     font-size: 36px;
     border-radius: 5px;
@@ -63,7 +58,7 @@ h1 {
   
 button {
     padding: 10px 20px;
-    background-color: #8b008b; /* Purple color */
+    background-color: #8B008B; /* Purple color */
     color: white;
     border: none;
     border-radius: 5px;
@@ -76,5 +71,20 @@ button:hover {
   
 button:active {
     transform: translateY(1px);
+}
+  
+.alert {
+    padding: 10px;
+    margin-bottom: 10px;
+    color: #fff;
+    border-radius: 5px;
+}
+  
+.alert.success {
+    background-color: #008000; /* Green color */
+}
+  
+.alert.error {
+    background-color: #ff0000; /* Red color */
 }
   
