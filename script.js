@@ -6,17 +6,14 @@ var enteredWords = [];
 var wordbank;
 
 
-var board = [
-    ['A', 'A', 'A', 'A'],
-    ['A', 'A', 'A', 'A'],
-    ['A', 'A', 'A', 'A'],
-    ['A', 'A', 'A', 'A']
-];
+var board;
 
-fetch("words.json")
+fetch("wordBank.json")
   .then(response => response.json())
   .then(data => {
     wordBank = data.words;
+    generateBoard();
+    renderBoard();
   })
   .catch(error => {
     console.error("Error loading word bank:", error);
@@ -54,6 +51,27 @@ function isValidWord(word) {
 
 function startTimer() {
   timerInterval = setInterval(updateTimer, 1000);
+}
+
+function generateBoard() {
+    var date = new Date();
+    var dateString = date.toDateString();
+    var seed = dateString.replace(/[^0-9]/g, ''); // Extract numeric characters from the date string
+    var random = new Math.seedrandom(seed); // Initialize the random number generator with the seed
+  
+    board = [];
+  
+    for (var i = 0; i < 4; i++) {
+      var row = [];
+  
+      for (var j = 0; j < 4; j++) {
+        var randomIndex = Math.floor(random() * wordBank.length);
+        var letter = wordBank[randomIndex];
+        row.push(letter);
+      }
+  
+      board.push(row);
+    }
 }
 
 function renderBoard() {
