@@ -182,20 +182,24 @@ function updateTimer() {
 }
   
 function startGame() {
-    document.getElementById("start-container").style.display = "none";
-    document.getElementById("game-container").style.display = "block";
+    var startContainer = document.getElementById("start-container");
+    var gameContainer = document.getElementById("game-container");
+  
+    startContainer.style.display = "none";
+    gameContainer.style.display = "block";
+  
     generateBoard();
     renderBoard();
     startTimer();
-}
+  }
 
 
 fetch("words.json")
     .then(response => response.json())
     .then(data => {
         wordBank = data.words;
-        //generateBoard(); # start game now calls these
-        //renderBoard(); #start game now calls these
+        //generateBoard(); //start game now calls these
+        //renderBoard(); //start game now calls these
     })
     .catch(error => {
         console.error("Error loading word bank:", error);
@@ -205,4 +209,4 @@ document.addEventListener("DOMContentLoaded", function() {
     generateBoard();
 });
 
-// startTimer(); # start game now calls these
+// startTimer(); // start game now calls these
