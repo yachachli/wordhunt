@@ -19,15 +19,17 @@ function submitWord() {
     var word = wordInput.value.trim();
   
     if (word !== "") {
-      if (enteredWords.includes(word)) {
-        alert("You have already entered this word!");
-      } else {
-        // Perform word scoring logic here
-        score++;
-        document.getElementById("score-value").innerText = score;
-        enteredWords.push(word);
+        if (enteredWords.includes(word)) {
+          alert("You have already entered this word!");
+        } else if (wordBank.includes(word)) {
+            // Perform word scoring logic here
+            score++;
+            document.getElementById("score-value").innerText = score;
+            enteredWords.push(word);
+        } else {
+            alert("Invalid word!");
+        }
       }
-    }
   
     wordInput.value = "";
 }
