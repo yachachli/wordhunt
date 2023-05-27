@@ -7,6 +7,8 @@ var wordbank;
 
 
 var board;
+var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+
 
 fetch("wordBank.json")
   .then(response => response.json())
@@ -65,14 +67,14 @@ function generateBoard() {
       var row = [];
   
       for (var j = 0; j < 4; j++) {
-        var randomIndex = Math.floor(random() * wordBank.length);
-        var letter = wordBank[randomIndex];
+        var randomIndex = Math.floor(random() * alphabet.length);
+        var letter = alphabet[randomIndex];
         row.push(letter);
       }
   
       board.push(row);
     }
-}
+  }
 
 function renderBoard() {
     var boardContainer = document.getElementById("board");
