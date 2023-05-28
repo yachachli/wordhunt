@@ -210,46 +210,6 @@ function submitWord(word) {
     selectedTiles = [];
 }
 
-function initTiles() {
-    const tileElements = Array.from(document.querySelectorAll("#board .tile"));
-    tileElements.forEach((tile, index) => {
-      tile.addEventListener("mousedown", function(e) {
-          e.preventDefault();
-          isDragging = true;
-          currentWord = tile.innerText;
-          currentWordArray.push(tile.innerText);
-          selectedTiles.push(tile);
-          tile.classList.add('selected');
-      });
-      tile.addEventListener("mouseover", function(e) {
-          if (isDragging && !selectedTiles.includes(tile)) {
-              currentWord += tile.innerText;
-              currentWordArray.push(tile.innerText);
-              selectedTiles.push(tile);
-              tile.classList.add('selected');
-          }
-      });
-      tile.addEventListener("mouseup", function(e) {
-          if (isDragging) {
-              submitWord(currentWord);
-              isDragging = false;
-          }
-      });
-    });
-    document.addEventListener("mouseup", function() {
-      if (isDragging) {
-          submitWord(currentWord);
-          isDragging = false;
-      }
-    });
-  }
-
-// document.addEventListener("mouseup", function(){
-//     if (isMouseDown) {
-//         isMouseDown = false;
-//         submitWord(currentWord);
-//     }
-// });
 
 document.getElementById("start-button").addEventListener("click", function() {
     generateBoard();
@@ -257,6 +217,48 @@ document.getElementById("start-button").addEventListener("click", function() {
     initTiles();
     startTimer();
 });
+
+function initTiles() {
+    const tileElements = Array.from(document.querySelectorAll("#board .tile"));
+    tileElements.forEach((tile, index) => {
+        tile.addEventListener("mousedown", function(e) {
+            e.preventDefault();
+            isDragging = true;
+            currentWord += tile.innerText;
+            tile.classList.add('selected');
+            selectedTiles.push(tile);
+            document.getElementById("dragged-word-input").value = currentWord; // Update the input field with the current word
+        });
+        tile.addEventListener("mouseover", function(e) {
+            if (isDragging && !tile.classList.contains('selected')) {
+                currentWord += tile.innerText;
+                tile.classList.add('selected');
+                selectedTiles.push(tile);
+                document.getElementById("dragged-word-input").value = currentWord; // Update the input field with the current word
+            }
+        });
+        tile.addEventListener("mouseup", function(e) {
+            if (isDragging) {
+                submitWord(currentWord);
+                isDragging = false;
+                currentWord = '';
+                selectedTiles.forEach(tile => tile.classList.remove('selected'));
+                selectedTiles = [];
+                document.getElementById("dragged-word-input").value = ''; // Clear the input field
+            }
+        });
+    });
+    document.addEventListener("mouseup", function() {
+        if (isDragging) {
+            submitWord(currentWord);
+            isDragging = false;
+            currentWord = '';
+            selectedTiles.forEach(tile => tile.classList.remove('selected'));
+            selectedTiles = [];
+            document.getElementById("dragged-word-input").value = ''; // Clear the input field
+        }
+    });
+}
 
 document.querySelectorAll('.letter').forEach(letterElement => {
     letterElement.addEventListener('mousedown', (event) => {
@@ -293,17 +295,6 @@ document.querySelectorAll('.letter').forEach(letterElement => {
     });
 }); // this function means that users have to go from letter to letter perfectly
 
-function onMouseUp(event) {
-    event.preventDefault();
-    dragging = false;
-    currentWord = '';
-    let letters = document.getElementsByClassName('letter');
-    for(let i = 0; i < letters.length; i++){
-      letters[i].style.backgroundColor = '#FFF8DC';
-    }
-    document.getElementById('dragged-word-input').value = '';
-  }
-
 
 // Initialize the tiles when the game is started
 document.getElementById("start-button").addEventListener("click", initTiles);
@@ -338,7 +329,7 @@ function calculateWordScore(word) {
 }
   
 
-function handleKeyDown(event) {
+function handleKeyDown(event) { //this isnt used anymore
     if (event.key === "Enter") {
       submitWord();
     }
