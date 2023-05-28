@@ -2,11 +2,11 @@ var score = 0;
 var timer = 60;
 var timerInterval;
 var enteredWords = [];
+//var wordbank = require('words.json');
 var wordbank;
+
+
 var board;
-let isDragging = false;
-let currentWordArray = [];
-let selectedTiles = [];
 
 // the reason for more of certain letters is to artifically 'weight' the board to have more of certain letters than others
 var alphabet = [
@@ -75,37 +75,6 @@ var alphabet = [
 //     }
 //   }
 
-// function generateBoard() {
-//     var date = new Date();
-//     var dateString = date.toISOString().slice(0,10); // Use the ISO date format YYYY-MM-DD
-//     var rng = seedrandom(dateString);
-
-//     board = [];
-
-//     for (var i = 0; i < 4; i++) {
-//         var row = [];
-
-//         for (var j = 0; j < 4; j++) {
-//             var totalWeight = alphabet.reduce((acc, letter) => acc + letter.weight, 0);
-//             var randomWeight = rng() * totalWeight;
-
-//             var cumulativeWeight = 0;
-//             var randomIndex = -1;
-//             for (var k = 0; k < alphabet.length; k++) {
-//                 cumulativeWeight += alphabet[k].weight;
-//                 if (randomWeight <= cumulativeWeight) {
-//                     randomIndex = k;
-//                     break;
-//                 }
-//             }
-
-//             var letter = alphabet[randomIndex].letter;
-//             row.push(letter);
-//         }
-
-//         board.push(row);
-//     }
-// }
 function generateBoard() {
     board = [];
   
@@ -153,50 +122,20 @@ function renderBoard() {
     }
 }
 
-// function submitWord() {
-//     var wordInput = document.getElementById("word-input");
-//     var word = wordInput.value.trim();
+function submitWord() {
+    var wordInput = document.getElementById("word-input");
+    var word = wordInput.value.trim();
   
-//     if (word !== "") {
-//         if (word === "Thank you Yahli") {
-//             alert("You're very welcome! hope this has been fun for you, here's a point");
-//             score++;
-//             document.getElementById("score-value").innerText = score;
-//         }
-//         else if (enteredWords.includes(word)) {
-//           alert("You have already entered this word!");
-//         } else if (wordBank.includes(word)) {
-//             // Perform word scoring logic here
-//             var wordScore = calculateWordScore(word);
-//             score += wordScore;
-//             document.getElementById("score-value").innerText = score;
-//             enteredWords.push(word);
-//         } else {
-//             alert("Invalid word!");
-//         }
-//       }
-  
-//     wordInput.value = "";
-// }
-
-// We'll keep track of the current word and the last tile position
-let currentWord = "";
-let lastTilePos = null;
-
-// We're also going to keep track of the tiles so we can access them by their position
-let tiles = [];
-
-
-
-function submitWord(word) {
     if (word !== "") {
         if (word === "Thank you Yahli") {
             alert("You're very welcome! hope this has been fun for you, here's a point");
             score++;
             document.getElementById("score-value").innerText = score;
-        } else if (enteredWords.includes(word)) {
+        }
+        else if (enteredWords.includes(word)) {
           alert("You have already entered this word!");
-        } else if (wordBank.includes(word.toLowerCase())) {
+        } else if (wordBank.includes(word)) {
+            // Perform word scoring logic here
             var wordScore = calculateWordScore(word);
             score += wordScore;
             document.getElementById("score-value").innerText = score;
@@ -204,101 +143,10 @@ function submitWord(word) {
         } else {
             alert("Invalid word!");
         }
-    }
-    currentWord = "";
-    selectedTiles.forEach(tile => tile.classList.remove('selected'));
-    selectedTiles = [];
+      }
+  
+    wordInput.value = "";
 }
-
-
-document.getElementById("start-button").addEventListener("click", function() {
-    generateBoard();
-    renderBoard();
-    initTiles();
-    startTimer();
-});
-
-function initTiles() {
-    const tileElements = Array.from(document.querySelectorAll("#board .tile"));
-    tileElements.forEach((tile, index) => {
-        tile.addEventListener("mousedown", function(e) {
-            e.preventDefault();
-            isDragging = true;
-            currentWord += tile.innerText;
-            tile.classList.add('selected');
-            selectedTiles.push(tile);
-            document.getElementById("dragged-word-input").value = currentWord; // Update the input field with the current word
-        });
-        tile.addEventListener("mouseover", function(e) {
-            if (isDragging && !tile.classList.contains('selected')) {
-                currentWord += tile.innerText;
-                tile.classList.add('selected');
-                selectedTiles.push(tile);
-                document.getElementById("dragged-word-input").value = currentWord; // Update the input field with the current word
-            }
-        });
-        tile.addEventListener("mouseup", function(e) {
-            if (isDragging) {
-                submitWord(currentWord);
-                isDragging = false;
-                currentWord = '';
-                selectedTiles.forEach(tile => tile.classList.remove('selected'));
-                selectedTiles = [];
-                document.getElementById("dragged-word-input").value = ''; // Clear the input field
-            }
-        });
-    });
-    document.addEventListener("mouseup", function() {
-        if (isDragging) {
-            submitWord(currentWord);
-            isDragging = false;
-            currentWord = '';
-            selectedTiles.forEach(tile => tile.classList.remove('selected'));
-            selectedTiles = [];
-            document.getElementById("dragged-word-input").value = ''; // Clear the input field
-        }
-    });
-}
-
-document.querySelectorAll('.letter').forEach(letterElement => {
-    letterElement.addEventListener('mousedown', (event) => {
-        isDragging = true;
-        event.target.classList.add('letter-selected');
-        currentWord = event.target.innerText;
-        currentWordArray.push(event.target.innerText);
-        document.getElementById("dragged-word-input").value = currentWord; // Update the input field with the current word
-    });
-
-    letterElement.addEventListener('mousemove', (event) => {
-        if (isDragging) {
-            event.target.classList.add('letter-selected');
-            if (!currentWordArray.includes(event.target.innerText)) {
-                currentWordArray.push(event.target.innerText);
-                currentWord = currentWordArray.join('');
-                document.getElementById("dragged-word-input").value = currentWord; // Update the input field with the current word
-            }
-        }
-    });
-
-    letterElement.addEventListener('mouseup', () => {
-        // reset dragging to false
-        isDragging = false;
-        // submit the word
-        submitWord(currentWord);
-        // clear the current word
-        currentWord = '';
-        currentWordArray = [];
-        // remove the selected class from all letters
-        document.querySelectorAll('.letter-selected').forEach(selectedLetterElement => {
-            selectedLetterElement.classList.remove('letter-selected');
-        });
-    });
-}); // this function means that users have to go from letter to letter perfectly
-
-
-// Initialize the tiles when the game is started
-document.getElementById("start-button").addEventListener("click", initTiles);
-
 
 
 function calculateWordScore(word) {
@@ -329,7 +177,7 @@ function calculateWordScore(word) {
 }
   
 
-function handleKeyDown(event) { //this isnt used anymore
+function handleKeyDown(event) {
     if (event.key === "Enter") {
       submitWord();
     }
@@ -344,21 +192,6 @@ function isValidWord(word) {
 
 function startTimer() {
   timerInterval = setInterval(updateTimer, 1000);
-}
-
-
-function onLetterClick(letter) {
-    // get the letter that was clicked
-    let letterValue = letter.textContent;
-  
-    // add the letter to the end of the word
-    currentWord += letterValue;
-  
-    // highlight the letter
-    letter.style.backgroundColor = '#B8C7A1';
-  
-    // show current word in the dragged-word-input field
-    document.getElementById('dragged-word-input').value = currentWord;
 }
 
 
@@ -391,5 +224,19 @@ function startGame() {
   }
 
 
+fetch("words.json")
+    .then(response => response.json())
+    .then(data => {
+        wordBank = data.words;
+        //generateBoard(); //start game now calls these
+        //renderBoard(); //start game now calls these
+    })
+    .catch(error => {
+        console.error("Error loading word bank:", error);
+    });
+
+document.addEventListener("DOMContentLoaded", function() {
+    generateBoard();
+});
 
 // startTimer(); // start game now calls these
