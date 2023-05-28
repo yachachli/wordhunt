@@ -136,7 +136,8 @@ function submitWord() {
           alert("You have already entered this word!");
         } else if (wordBank.includes(word)) {
             // Perform word scoring logic here
-            score++;
+            var wordScore = calculateWordScore(word);
+            score += wordScore;
             document.getElementById("score-value").innerText = score;
             enteredWords.push(word);
         } else {
@@ -146,6 +147,35 @@ function submitWord() {
   
     wordInput.value = "";
 }
+
+
+function calculateWordScore(word) {
+    var wordLength = word.length;
+    var wordScore = 0;
+    
+    if (wordLength === 2) {
+      wordScore = 0;
+    } else if (wordLength === 3) {
+      wordScore = 100;
+    } else if (wordLength === 4) {
+      wordScore = 400;
+    } else if (wordLength === 5) {
+      wordScore = 800;
+    } else if (wordLength === 6) {
+      wordScore = 1200;
+    } else if (wordLength === 7) {
+      wordScore = 1600;
+    } else if (wordLength === 8) {
+      wordScore = 2000;
+    } else if (wordLength === 9) {
+      wordScore = 2400;
+    } else if (wordLength >= 10) {
+      wordScore = 3000;
+    }
+    
+    return wordScore;
+}
+  
 
 function handleKeyDown(event) {
     if (event.key === "Enter") {
