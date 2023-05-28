@@ -251,7 +251,7 @@ function submitWord(word) {
         }
         else if (enteredWords.includes(word)) {
           alert("You have already entered this word!");
-        } else if (wordBank.includes(word)) {
+        } else if (wordBank.includes(word.toLowerCase())) {
             // Perform word scoring logic here
             var wordScore = calculateWordScore(word);
             score += wordScore;
