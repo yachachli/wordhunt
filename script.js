@@ -2,12 +2,11 @@ var score = 0;
 var timer = 60;
 var timerInterval;
 var enteredWords = [];
-//var wordbank = require('words.json');
 var wordbank;
-
-let isDragging = false;
-
 var board;
+let isDragging = false;
+let currentWordArray = [];
+let selectedTiles = [];
 
 // the reason for more of certain letters is to artifically 'weight' the board to have more of certain letters than others
 var alphabet = [
@@ -187,61 +186,7 @@ let lastTilePos = null;
 // We're also going to keep track of the tiles so we can access them by their position
 let tiles = [];
 
-function initTiles() {
-  // Find all the tiles
-  const tileElements = document.querySelectorAll("#board .tile");
 
-  // Create a 2D array of the tiles
-  tiles = [];
-  for (let i = 0; i < 4; i++) {
-    const row = [];
-    for (let j = 0; j < 4; j++) {
-      row.push(tileElements[i * 4 + j]);
-    }
-    tiles.push(row);
-  }
-
-  // Add event listeners to the tiles
-  for (let i = 0; i < 4; i++) {
-    for (let j = 0; j < 4; j++) {
-      const tile = tiles[i][j];
-
-      // When the mouse button is pressed over a tile, start a new word
-      tile.addEventListener("mousedown", function(event) {
-        currentWord = tile.textContent;
-        lastTilePos = {i, j};
-
-        // Prevent the event from causing text to be selected
-        event.preventDefault();
-      });
-
-      // When the mouse is moved over a tile, add to the word
-      tile.addEventListener("mouseover", function() {
-        // If the mouse button isn't pressed, ignore this event
-        if (lastTilePos === null) return;
-
-        // If the tile is adjacent to the last tile, add its letter to the word
-        const dx = Math.abs(lastTilePos.i - i);
-        const dy = Math.abs(lastTilePos.j - j);
-        if (dx <= 1 && dy <= 1) {
-          currentWord += tile.textContent;
-          lastTilePos = {i, j};
-        }
-      });
-    }
-  }
-
-  // When the mouse button is released, finalize the word
-  document.addEventListener("mouseup", function() {
-    if (currentWord !== "") {
-      submitWord(currentWord);
-    }
-
-    // Reset the current word and last tile position
-    currentWord = "";
-    lastTilePos = null;
-  });
-}
 
 function submitWord(word) {
     if (word !== "") {
@@ -249,11 +194,9 @@ function submitWord(word) {
             alert("You're very welcome! hope this has been fun for you, here's a point");
             score++;
             document.getElementById("score-value").innerText = score;
-        }
-        else if (enteredWords.includes(word)) {
+        } else if (enteredWords.includes(word)) {
           alert("You have already entered this word!");
         } else if (wordBank.includes(word.toLowerCase())) {
-            // Perform word scoring logic here
             var wordScore = calculateWordScore(word);
             score += wordScore;
             document.getElementById("score-value").innerText = score;
@@ -262,9 +205,44 @@ function submitWord(word) {
             alert("Invalid word!");
         }
     }
-    // reset the current word
     currentWord = "";
+    selectedTiles.forEach(tile => tile.classList.remove('selected'));
+    selectedTiles = [];
 }
+
+function initTiles() {
+    const tileElements = Array.from(document.querySelectorAll("#board .tile"));
+    tileElements.forEach((tile, index) => {
+      tile.addEventListener("mousedown", function(e) {
+          e.preventDefault();
+          isDragging = true;
+          currentWord = tile.innerText;
+          currentWordArray.push(tile.innerText);
+          selectedTiles.push(tile);
+          tile.classList.add('selected');
+      });
+      tile.addEventListener("mouseover", function(e) {
+          if (isDragging && !selectedTiles.includes(tile)) {
+              currentWord += tile.innerText;
+              currentWordArray.push(tile.innerText);
+              selectedTiles.push(tile);
+              tile.classList.add('selected');
+          }
+      });
+      tile.addEventListener("mouseup", function(e) {
+          if (isDragging) {
+              submitWord(currentWord);
+              isDragging = false;
+          }
+      });
+    });
+    document.addEventListener("mouseup", function() {
+      if (isDragging) {
+          submitWord(currentWord);
+          isDragging = false;
+      }
+    });
+  }
 
 // document.addEventListener("mouseup", function(){
 //     if (isMouseDown) {
@@ -272,6 +250,13 @@ function submitWord(word) {
 //         submitWord(currentWord);
 //     }
 // });
+
+document.getElementById("start-button").addEventListener("click", function() {
+    generateBoard();
+    renderBoard();
+    initTiles();
+    startTimer();
+});
 
 document.querySelectorAll('.letter').forEach(letterElement => {
     letterElement.addEventListener('mousedown', (event) => {
@@ -415,19 +400,5 @@ function startGame() {
   }
 
 
-fetch("words.json")
-    .then(response => response.json())
-    .then(data => {
-        wordBank = data.words;
-        //generateBoard(); //start game now calls these
-        //renderBoard(); //start game now calls these
-    })
-    .catch(error => {
-        console.error("Error loading word bank:", error);
-    });
-
-document.addEventListener("DOMContentLoaded", function() {
-    generateBoard();
-});
 
 // startTimer(); // start game now calls these

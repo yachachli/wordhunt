@@ -122,10 +122,14 @@ button:active {
 }
 
   
-  #game-container {
+#game-container {
     text-align: center;
-  }
+}
   
+.selected {
+    background-color: #B8C7A1;
+}
+
   
 .alert {
     padding: 10px;
