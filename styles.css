@@ -116,20 +116,11 @@ button:active {
     padding: 20px 40px;
     font-size: 24px;
   }
-
-.letter-selected {
-    background-color: #78866B; /* example of green tinted wood-y color */
-}
-
   
-#game-container {
+  #game-container {
     text-align: center;
-}
+  }
   
-.selected {
-    background-color: #B8C7A1;
-}
-
   
 .alert {
     padding: 10px;
