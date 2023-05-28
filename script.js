@@ -265,12 +265,49 @@ function submitWord(word) {
     currentWord = "";
 }
 
-document.addEventListener("mouseup", function(){
-    if (isMouseDown) {
-        isMouseDown = false;
+// document.addEventListener("mouseup", function(){
+//     if (isMouseDown) {
+//         isMouseDown = false;
+//         submitWord(currentWord);
+//     }
+// });
+
+document.querySelectorAll('.letter').forEach(letterElement => {
+    letterElement.addEventListener('mousedown', (event) => {
+        // set dragging to true
+        isDragging = true;
+        // add the selected class to the letter
+        event.target.classList.add('letter-selected');
+        currentWord = event.target.innerText;
+        currentWordArray.push(event.target.innerText);
+    });
+
+    letterElement.addEventListener('mousemove', (event) => {
+        if (isDragging) {
+            // add the selected class to the letter
+            event.target.classList.add('letter-selected');
+            if (!currentWordArray.includes(event.target.innerText)) {
+                currentWordArray.push(event.target.innerText);
+                currentWord = currentWordArray.join('');
+            }
+        }
+    });
+
+    letterElement.addEventListener('mouseup', () => {
+        // reset dragging to false
+        isDragging = false;
+        // submit the word
         submitWord(currentWord);
-    }
-});
+        // clear the current word
+        currentWord = '';
+        currentWordArray = [];
+        // remove the selected class from all letters
+        document.querySelectorAll('.letter-selected').forEach(selectedLetterElement => {
+            selectedLetterElement.classList.remove('letter-selected');
+        });
+    });
+}); // this function means that users have to go from letter to letter perfectly
+
 
 // Initialize the tiles when the game is started
 document.getElementById("start-button").addEventListener("click", initTiles);
