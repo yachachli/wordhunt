@@ -127,10 +127,96 @@ function renderBoard() {
     }
 }
 
-function submitWord() {
-    var wordInput = document.getElementById("word-input");
-    var word = wordInput.value.trim();
+// function submitWord() {
+//     var wordInput = document.getElementById("word-input");
+//     var word = wordInput.value.trim();
   
+//     if (word !== "") {
+//         if (word === "Thank you Yahli") {
+//             alert("You're very welcome! hope this has been fun for you, here's a point");
+//             score++;
+//             document.getElementById("score-value").innerText = score;
+//         }
+//         else if (enteredWords.includes(word)) {
+//           alert("You have already entered this word!");
+//         } else if (wordBank.includes(word)) {
+//             // Perform word scoring logic here
+//             var wordScore = calculateWordScore(word);
+//             score += wordScore;
+//             document.getElementById("score-value").innerText = score;
+//             enteredWords.push(word);
+//         } else {
+//             alert("Invalid word!");
+//         }
+//       }
+  
+//     wordInput.value = "";
+// }
+
+// We'll keep track of the current word and the last tile position
+let currentWord = "";
+let lastTilePos = null;
+
+// We're also going to keep track of the tiles so we can access them by their position
+let tiles = [];
+
+function initTiles() {
+  // Find all the tiles
+  const tileElements = document.querySelectorAll("#board .tile");
+
+  // Create a 2D array of the tiles
+  tiles = [];
+  for (let i = 0; i < 4; i++) {
+    const row = [];
+    for (let j = 0; j < 4; j++) {
+      row.push(tileElements[i * 4 + j]);
+    }
+    tiles.push(row);
+  }
+
+  // Add event listeners to the tiles
+  for (let i = 0; i < 4; i++) {
+    for (let j = 0; j < 4; j++) {
+      const tile = tiles[i][j];
+
+      // When the mouse button is pressed over a tile, start a new word
+      tile.addEventListener("mousedown", function(event) {
+        currentWord = tile.textContent;
+        lastTilePos = {i, j};
+
+        // Prevent the event from causing text to be selected
+        event.preventDefault();
+      });
+
+      // When the mouse is moved over a tile, add to the word
+      tile.addEventListener("mouseover", function() {
+        // If the mouse button isn't pressed, ignore this event
+        if (lastTilePos === null) return;
+
+        // If the tile is adjacent to the last tile, add its letter to the word
+        const dx = Math.abs(lastTilePos.i - i);
+        const dy = Math.abs(lastTilePos.j - j);
+        if (dx <= 1 && dy <= 1) {
+          currentWord += tile.textContent;
+          lastTilePos = {i, j};
+        }
+      });
+    }
+  }
+
+  // When the mouse button is released, finalize the word
+  document.addEventListener("mouseup", function() {
+    if (currentWord !== "") {
+      submitWord(currentWord);
+    }
+
+    // Reset the current word and last tile position
+    currentWord = "";
+    lastTilePos = null;
+  });
+}
+
+function submitWord(word) {
     if (word !== "") {
         if (word === "Thank you Yahli") {
             alert("You're very welcome! hope this has been fun for you, here's a point");
@@ -148,10 +234,21 @@ function submitWord() {
         } else {
             alert("Invalid word!");
         }
-      }
-  
-    wordInput.value = "";
+    }
+    // reset the current word
+    currentWord = "";
 }
+
+document.addEventListener("mouseup", function(){
+    if (isMouseDown) {
+        isMouseDown = false;
+        submitWord(currentWord);
+    }
+});
+
+// Initialize the tiles when the game is started
+document.getElementById("start-button").addEventListener("click", initTiles);
+
 
 
 function calculateWordScore(word) {
