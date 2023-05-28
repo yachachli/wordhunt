@@ -308,6 +308,17 @@ document.querySelectorAll('.letter').forEach(letterElement => {
     });
 }); // this function means that users have to go from letter to letter perfectly
 
+function onMouseUp(event) {
+    event.preventDefault();
+    dragging = false;
+    currentWord = '';
+    let letters = document.getElementsByClassName('letter');
+    for(let i = 0; i < letters.length; i++){
+      letters[i].style.backgroundColor = '#FFF8DC';
+    }
+    document.getElementById('dragged-word-input').value = '';
+  }
+
 
 // Initialize the tiles when the game is started
 document.getElementById("start-button").addEventListener("click", initTiles);
@@ -357,6 +368,21 @@ function isValidWord(word) {
 
 function startTimer() {
   timerInterval = setInterval(updateTimer, 1000);
+}
+
+
+function onLetterClick(letter) {
+    // get the letter that was clicked
+    let letterValue = letter.textContent;
+  
+    // add the letter to the end of the word
+    currentWord += letterValue;
+  
+    // highlight the letter
+    letter.style.backgroundColor = '#B8C7A1';
+  
+    // show current word in the dragged-word-input field
+    document.getElementById('dragged-word-input').value = currentWord;
 }
 
 
