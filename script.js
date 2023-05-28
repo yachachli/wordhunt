@@ -76,32 +76,37 @@ var alphabet = [
 //   }
 
 function generateBoard() {
+    var date = new Date();
+    var dateString = date.toISOString().slice(0,10); // Use the ISO date format YYYY-MM-DD
+    var rng = seedrandom(dateString);
+
     board = [];
-  
+
     for (var i = 0; i < 4; i++) {
-      var row = [];
-  
-      for (var j = 0; j < 4; j++) {
-        var totalWeight = alphabet.reduce((acc, letter) => acc + letter.weight, 0); //to take into account weights
-        var randomWeight = Math.random() * totalWeight;
-  
-        var cumulativeWeight = 0;
-        var randomIndex = -1;
-        for (var k = 0; k < alphabet.length; k++) {
-          cumulativeWeight += alphabet[k].weight;
-          if (randomWeight <= cumulativeWeight) {
-            randomIndex = k;
-            break;
-          }
+        var row = [];
+
+        for (var j = 0; j < 4; j++) {
+            var totalWeight = alphabet.reduce((acc, letter) => acc + letter.weight, 0);
+            var randomWeight = rng() * totalWeight;
+
+            var cumulativeWeight = 0;
+            var randomIndex = -1;
+            for (var k = 0; k < alphabet.length; k++) {
+                cumulativeWeight += alphabet[k].weight;
+                if (randomWeight <= cumulativeWeight) {
+                    randomIndex = k;
+                    break;
+                }
+            }
+
+            var letter = alphabet[randomIndex].letter;
+            row.push(letter);
         }
-  
-        var letter = alphabet[randomIndex].letter;
-        row.push(letter);
-      }
-  
-      board.push(row);
+
+        board.push(row);
     }
-  }
+}
+
   
 
 function renderBoard() {
