@@ -5,6 +5,7 @@ var enteredWords = [];
 //var wordbank = require('words.json');
 var wordbank;
 
+let isDragging = false;
 
 var board;
 
@@ -274,21 +275,20 @@ function submitWord(word) {
 
 document.querySelectorAll('.letter').forEach(letterElement => {
     letterElement.addEventListener('mousedown', (event) => {
-        // set dragging to true
         isDragging = true;
-        // add the selected class to the letter
         event.target.classList.add('letter-selected');
         currentWord = event.target.innerText;
         currentWordArray.push(event.target.innerText);
+        document.getElementById("dragged-word-input").value = currentWord; // Update the input field with the current word
     });
 
     letterElement.addEventListener('mousemove', (event) => {
         if (isDragging) {
-            // add the selected class to the letter
             event.target.classList.add('letter-selected');
             if (!currentWordArray.includes(event.target.innerText)) {
                 currentWordArray.push(event.target.innerText);
                 currentWord = currentWordArray.join('');
+                document.getElementById("dragged-word-input").value = currentWord; // Update the input field with the current word
             }
         }
     });
